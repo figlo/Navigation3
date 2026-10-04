@@ -21,10 +21,6 @@ import androidx.navigation3.ui.NavDisplay
 fun NavigationExample() {
     val backStack: SnapshotStateList<Destination> = remember { mutableStateListOf(Destination.Home) }
 
-    fun navigateBack(): () -> Unit = {
-        backStack.removeLastOrNull()
-    }
-
     fun navigate(destination: Destination) {
         backStack.add(destination)
     }
