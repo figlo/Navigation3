@@ -14,7 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 
 @Composable
@@ -37,9 +37,8 @@ fun NavigationExample() {
         predictivePopTransitionSpec = {
             EnterTransition.None togetherWith ExitTransition.None
         },
-        entryProvider = { key ->
-            when (key) {
-                Destination.Home -> NavEntry(key) {
+        entryProvider = entryProvider {
+                entry<Destination.Home> {
                         Column(
                             modifier = Modifier.fillMaxSize(),
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -53,9 +52,13 @@ fun NavigationExample() {
                                 }
                             }
                         }
-                }
-                is Destination.Detail -> NavEntry(key) { Text("Detail ${key.id}") }
-            }
+                    }
+                entry<Destination.Detail> { key -> DetailScreen(key.id) }
         },
     )
+}
+
+@Composable
+fun DetailScreen(id: Int) {
+    Text("Detail $id")
 }
